@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "node",
+    "dev": "nodemon",
     "build": "rimraf dist & tsc"
   },
   "author": "Roman Stravnyak",
