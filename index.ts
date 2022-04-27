@@ -21,10 +21,11 @@ const getSearchInfo = async (query: string) => {
       searchType: "image",
       q: query,
       filter: 0,
+      imgSize: "medium",
     },
   });
 
-  return (await response.data) as Promise<SearchInfo>;
+  return response.data as Promise<SearchInfo>;
 };
 
 bot.start((ctx) =>
@@ -43,7 +44,6 @@ bot.on("message", async (ctx) => {
   if ("text" in ctx.update.message) {
     try {
       const data = await getSearchInfo(ctx.update.message.text);
-      console.log(data);
       if (data.items?.length) {
         await ctx.replyWithMediaGroup(
           data.items.map(({ link }) => ({
