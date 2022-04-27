@@ -20,6 +20,7 @@ const getSearchInfo = async (query: string) => {
       cx: SEARCH_API_ID,
       searchType: "image",
       q: query,
+      filter: 0,
     },
   });
 
@@ -42,6 +43,7 @@ bot.on("message", async (ctx) => {
   if ("text" in ctx.update.message) {
     try {
       const data = await getSearchInfo(ctx.update.message.text);
+      console.log(data);
       if (data.items?.length) {
         await ctx.replyWithMediaGroup(
           data.items.map(({ link }) => ({
