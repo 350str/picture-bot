@@ -1,11 +1,8 @@
 import { Telegraf } from "telegraf";
 import axios from "axios";
+import "dotenv/config";
 
-const BOT_TOKEN = "5185567248:AAElRXhOlS7GuHEmvPVREOcHGLwN-TzVJ5g";
-const CUSTOM_SEARCH_API_TOKEN = "AIzaSyC2XepoGko7Dz49maG-3Xh5b0XjVlw_vmI";
-const SEARCH_API_ID = "4114a49481b949f48";
-
-const bot = new Telegraf(BOT_TOKEN);
+const bot = new Telegraf(process.env.BOT_TOKEN ?? "");
 
 interface SearchInfo {
   items?: {
@@ -14,10 +11,14 @@ interface SearchInfo {
 }
 
 const getSearchInfo = async (query: string) => {
+  if (!process.env.CUSTOM_SEARCH_API_TOKEN || !process.env.SEARCH_API_ID) {
+    throw new Error("env variables has not defined");
+  }
+
   const response = await axios(`https://www.googleapis.com/customsearch/v1`, {
     params: {
-      key: CUSTOM_SEARCH_API_TOKEN,
-      cx: SEARCH_API_ID,
+      key: process.env.CUSTOM_SEARCH_API_TOKEN,
+      cx: process.env.SEARCH_API_ID,
       searchType: "image",
       q: query,
       filter: 0,
